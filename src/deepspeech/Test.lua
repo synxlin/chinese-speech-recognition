@@ -1,0 +1,38 @@
+local Network = require 'Network'
+
+-- Load the network from the saved model. Options can be overrided on command line run.
+local cmd = torch.CmdLine()
+cmd:option('-loadModel', true, 'Load previously saved model')
+cmd:option('-saveModel', false, 'Save model after training/testing')
+cmd:option('-loadPath', 'deepspeech.t7', 'Path of final model to save/load')
+cmd:option('-modelName', 'DeepSpeechModel', 'Name of class containing architecture')
+cmd:option('-nGPU', 1, 'Number of GPUs, set -1 to use CPU')
+cmd:option('-cudnnFastest', false, 'whether open cudnn fastest mode')
+cmd:option('-trainingSetLMDBPath', './datasets/thchs30/thchs30_lmdb/train/', 'Path to LMDB training dataset')
+cmd:option('-validationSetLMDBPath', './datasets/thchs30/thchs30_lmdb/test/', 'Path to LMDB test dataset')
+cmd:option('-windowSize', 0.02, 'Window size for audio data')
+cmd:option('-stride', 0.01, 'Stride for audio data')
+cmd:option('-sampleRate', 16000, 'Sample rate of audio data (Default 16khz)')
+cmd:option('-noiseAugmentation', false, 'whether training with noise augmentation')
+cmd:option('-noiseInjection', false, 'whether training with noise injection')
+cmd:option('-testNoiseAugmentation', false, 'whether testing with noise augmentation')
+cmd:option('-testNoiseInjection', false, 'whether testing with noise injection')
+cmd:option('-noiseRootPath', 'datasets/thchs30/noise', 'Path to the noise directory')
+cmd:option('-logsTrainPath', './logs/TrainingLoss/', ' Path to save Training logs')
+cmd:option('-logsValidationPath', './logs/TestScores/', ' Path to save Validation logs')
+cmd:option('-dictionaryPath', './datasets/thchs30/dictionary', ' File containing the dictionary to use')
+cmd:option('-languageModelPath', './datasets/thchs30/ngram.lm', ' File containing the language model to use')
+cmd:option('-lmAlpha', 0, ' weight of language model probability | 0: not use language model')
+cmd:option('-beamSize', 10, 'beam search size | 0: not use beam search')
+cmd:option('-batchSize', 5, 'Batch size in training')
+cmd:option('-validationBatchSize', 5, 'Batch size for validation')
+
+local opt = cmd:parse(arg)
+
+Network:init(opt)
+
+print("Testing network...")
+local wer, cer = Network:testNetwork()
+Network:closeDecoder()
+print(string.format('Avg WER: %2.f  Avg CER: %.2f', 100 * wer, 100 * cer))
+print(string.format('More information written to log file at %s', opt.logsValidationPath))

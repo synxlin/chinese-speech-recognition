@@ -1,0 +1,12 @@
+.idea/
+*.log
+*.log.eps
+*.t7
+datasets/*
+!datasets/*.lua
+!datasets/*.py
+demo/
+exp/
+logs/
+*.swp
+*.wav

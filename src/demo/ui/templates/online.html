@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <style type="text/css">
+    html {
+      background-color: #FEF9E7;
+    }
+
+    #title {
+      top: 9%;
+      left: 20%;
+      max-width: 400px;
+      position: absolute; 
+      text-align: center;
+      padding: 10pt;
+      margin-top: 15px;
+      font-size: 30pt
+    }
+    #start_stop_button {
+      background-color:#E74C3C;
+    }
+
+    #textbox {
+      top: 30%;
+      margin: 0 auto;
+      width: 100%;
+      height: 50%;
+      padding: 10pt;
+      position: absolute; 
+      text-align: center;
+      display: flex;
+      justify-content: center;
+    }
+
+    #parabox {
+      padding: 10pt;
+      width: 60%;
+      height: 100%;
+      text-align: left;
+      font-size: 14pt;
+      background-color: white;
+      font-family: 'Microsoft Yahei UI';
+      justify-content: center;      
+    }
+
+    .text {
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+      height: 70px;
+    }
+
+    .area {
+      width: 100%;
+      float: left;
+      margin-top: 15px;
+    }
+
+    .area .input,
+    .area .input label {
+      width: 100%;
+      float: left;
+      position: relative;
+    }
+
+    .area .input {
+      overflow: hidden;
+      border-radius: 2px;
+      color: #fff;
+      background-color: #26a69a;
+      box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      transition: 300ms;
+      -webkit-transition: 300ms;
+      -ms-transition: 300ms;
+    }
+
+    .area .input input {
+      display: none;
+    }
+
+    .area .input label {
+      font-weight: 400;
+      color: #fff;
+      text-align: center;
+      text-transform:uppercase;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 3;
+      transition: 300ms;
+      -webkit-transition: 300ms;
+      -ms-transition: 300ms;
+      height: 45px;
+      line-height: 45px;
+    }
+
+    .area .input:hover{
+      box-shadow:0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
+    }
+    .area .input label:hover {
+      letter-spacing: .8px;
+      
+    }
+
+    .click-efect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      position: absolute;
+      top:16%;
+      left:66%;
+      transform:translate(-50%,-50%);         
+      -webkit-transform:translate(-50%,-50%);
+      -ms-transform:translate(-50%,-50%);
+
+    }
+
+    .col-3 {
+      width: 50%;
+      float: left;
+      padding: 0 15px;
+    }
+
+    .row {
+      margin: 0 -15px;
+    }
+
+    @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700&subset=latin,latin-ext);
+    *,
+    *:after,
+    *::before {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+
+  <script type="text/javascript">
+
+    function httpGet(url) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", url, false );
+        xmlHttp.send( null );
+        return xmlHttp.responseText;
+    }
+
+    // click start stop button
+    var status = 'off';
+    function onClickStartStop() {
+      var colors = {'on': '#186A3B', 'off': '#E74C3C'};
+      var texts = {'on': '[START] STOP', 'off': 'START [STOP]'};
+      status = httpGet('/online/startstop');
+      color = colors[status];
+      text = texts[status];
+      if (color == undefined) {
+        alert('unknown status: ' + status);
+      }
+      var button = document.getElementById('start_stop_button');
+      button.style.backgroundColor = color;
+      button.textContent = text;
+    }
+
+    var updateTexts=setInterval(setTexts,500);
+
+    function setTexts() {
+      texts = httpGet('/online/text');
+      texts = JSON.parse(texts);
+      box = document.getElementById('parabox');
+      box.innerHTML = ''
+      for (var i = 0; i < texts.length; i++) {
+        box.innerHTML += ('<p>' + texts[i] + '<p>');
+      }
+      if (status == 'off') {
+        box.innerHTML += ('<p style="color:gray">' + '[按右上 (START/STOP) 键开始录音]' + '<p>');
+      }
+      if (status == 'on') {
+        box.innerHTML += ('<p style="color:gray">' + '[请讲话]' + '<p>');
+      }
+    }
+  </script>
+</head>
+
+<body>
+
+  <div id="headerline">
+
+  <div id="title"> Online Recognition </div>
+
+
+  <div class="container">
+    <div class="inputs">
+
+        <div class="area">
+          <div class="row">
+              <div class="col-3">
+                <!-- online demo button -->
+                <span class="input" onclick="onClickStartStop()">
+                <label for="checkbox-1" id="start_stop_button"> START [STOP] </label>
+                <input type="checkbox" name="checkbox" id="checkbox-1">
+                </span>
+              </div>
+              <div class="col-3">
+                <!-- offline demo button -->
+                <span class="input" onclick="window.location.href='/'">
+                <label for="checkbox-2"> BACK </label>
+                <input type="checkbox" name="checkbox" id="checkbox-2">
+                </span>
+              </div>
+        </div>
+
+    </div>
+  </div>
+
+  </div>
+
+  <div id="textbox">
+    <div id="parabox">
+      
+    </div>
+  </div>
+
+</body>
+
+
+</html>

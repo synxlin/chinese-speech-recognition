@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <style type="text/css">
+    html {
+      background-color: #FEF9E7;
+    }
+
+    #title {
+      top: 20%;
+      width: 100%;
+      position: absolute;      
+      text-align: center;
+      padding: 10pt;
+      margin-top: 15px;
+      font-size: 55pt
+    }
+    #author {
+      top: 40%;
+      width: 100%;
+      position: absolute;
+      text-align: center;
+      padding: 10pt;
+      font-size: 20pt;
+      text-align: center
+    }
+
+    #model_info {
+      top: 70%;
+      width: 100%;
+      position: absolute;
+      text-align: center;
+      padding: 10pt;
+      font-size: 16pt;
+      text-align: center
+    }
+    .text {
+      width: 100%;
+      text-align: center;
+      margin-top: 20px;
+      height: 70px;
+    }
+
+    .area {
+      width: 100%;
+      float: left;
+      margin-top: 15px;
+    }
+
+    .area .input,
+    .area .input label {
+      width: 100%;
+      float: left;
+      position: relative;
+    }
+
+    .area .input {
+      overflow: hidden;
+      border-radius: 2px;
+      color: #fff;
+      background-color: #26a69a;
+      box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+      transition: 300ms;
+      -webkit-transition: 300ms;
+      -ms-transition: 300ms;
+    }
+
+    .area .input input {
+      display: none;
+    }
+
+    .area .input label {
+      font-weight: 400;
+      color: #fff;
+      text-align: center;
+      text-transform:uppercase;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 3;
+      transition: 300ms;
+      -webkit-transition: 300ms;
+      -ms-transition: 300ms;
+      height: 45px;
+      line-height: 45px;
+    }
+
+    .area .input:hover{
+      box-shadow:0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
+    }
+    .area .input label:hover {
+      letter-spacing: .8px;
+      
+    }
+
+    .click-efect {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 50%;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      position: absolute;
+      top:60%;
+      left:50%;
+      transform:translate(-50%,-50%);         
+      -webkit-transform:translate(-50%,-50%);
+      -ms-transform:translate(-50%,-50%);
+
+    }
+
+    .col-3 {
+      width: 50%;
+      float: left;
+      padding: 0 15px;
+    }
+
+    .row {
+      margin: 0 -15px;
+    }
+
+    @import url(http://fonts.googleapis.com/css?family=Roboto:400,300,700&subset=latin,latin-ext);
+    *,
+    *:after,
+    *::before {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      text-decoration: none;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+  </style>
+  <script type="text/javascript"></script>
+</head>
+
+<body>
+  <div id="title"> Speech Recognition </div>
+  <div id="author"> Yujun Lin, Kaidi Cao, Xujie Ma </div>
+
+  <div id="model_info"> {{model_info}} </div>
+
+
+  <div class="container">
+    <div class="inputs">
+
+        <div class="area">
+          <div class="row">
+              <div class="col-3">
+                <!-- online demo button -->
+                <span class="input" onclick="window.location.href='online'">
+                <label for="checkbox-1">Online Demo</label>
+                <input type="checkbox" name="checkbox" id="checkbox-1">
+                </span>
+              </div>
+              <div class="col-3">
+                <!-- offline demo button -->
+                <span class="input" onclick="window.location.href='offline'">
+                <label for="checkbox-2">Offline Demo</label>
+                <input type="checkbox" name="checkbox" id="checkbox-2">
+                </span>
+              </div>
+        </div>
+
+    </div>
+  </div>
+
+</body>
+
+
+</html>
